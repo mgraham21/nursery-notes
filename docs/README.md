@@ -17,3 +17,4 @@ Family can record care for the baby. It'll have many options like diaper changes
 * Development milestone and age appropriate info
 * Graphs showing latest data and compare to generic child info for child's same age
 
+[User Stories](user-stories.md)
