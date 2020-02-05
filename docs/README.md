@@ -21,5 +21,6 @@ Family can record care for the baby. It'll have many options like diaper changes
 
 [Entity-Relationship Diagram](erd.md)
 
-## External services
+## External Services
 ---
+[External Services](external-services.md)
