@@ -23,4 +23,4 @@ Family can record care for the baby. It'll have many options like diaper changes
 [User Stories](user-stories.md)
 
 ## Wireframe
-[Wireframe](nursery_notes_wireframe.png)[!Wireframe](nursery_notes_wireframe.pdf)
+[[Wireframe](nursery_notes_wireframe.png)(nursery_notes_wireframe.pdf)]
