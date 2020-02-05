@@ -11,14 +11,6 @@ Family can record care for the baby. It'll have many options like diaper changes
 * Aunts, Uncles, Grandparents
 * Any other care givers
 
-## External services
----
-* Connect to other users and share child's info on multiple devices
-* A suggested schedule based on the last (however) so many days of child's activities
-* Connect to baby video monitor for live feed over wifi
-* Development milestone and age appropriate info
-* Graphs showing latest data and compare to generic child info for child's same age
-
 ## User Stories
 ---
 [User Stories](user-stories.md)
@@ -28,3 +20,6 @@ Family can record care for the baby. It'll have many options like diaper changes
 [Wireframe Diagram](wireframe.md)
 
 [Entity-Relationship Diagram](erd.md)
+
+## External services
+---
