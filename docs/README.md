@@ -27,3 +27,4 @@ Family can record care for the baby. It'll have many options like diaper changes
 ---
 [Wireframe Diagram](wireframe.md)
 
+[Entity-Relationship Diagram](erd.md)
