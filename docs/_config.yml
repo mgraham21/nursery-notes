@@ -1,2 +1,4 @@
 title: Nursery Notes
+remote_theme: mmistakes/minimal-mistakes
+
 theme: jekyll-theme-architect
