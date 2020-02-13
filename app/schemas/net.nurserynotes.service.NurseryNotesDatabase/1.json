@@ -1,0 +1,194 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "72b25bc483ab175c0866a6e536910aa4",
+    "entities": [
+      {
+        "tableName": "Activity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`activity_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT COLLATE NOCASE)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "activity_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "activity_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Child",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`child_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `last_name` TEXT COLLATE NOCASE, `first_name` TEXT COLLATE NOCASE, `birth_date` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "child_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastName",
+            "columnName": "last_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "firstName",
+            "columnName": "first_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "birthDate",
+            "columnName": "birth_date",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "child_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Child_last_name_first_name",
+            "unique": true,
+            "columnNames": [
+              "last_name",
+              "first_name"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Child_last_name_first_name` ON `${TABLE_NAME}` (`last_name`, `first_name`)"
+          },
+          {
+            "name": "index_Child_birth_date",
+            "unique": false,
+            "columnNames": [
+              "birth_date"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Child_birth_date` ON `${TABLE_NAME}` (`birth_date`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Record",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`record_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `child_id` INTEGER NOT NULL, `activity_id` INTEGER NOT NULL, `start` INTEGER, `end` INTEGER, `notes` TEXT, FOREIGN KEY(`child_id`) REFERENCES `Child`(`child_id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`activity_id`) REFERENCES `Activity`(`activity_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "record_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "childId",
+            "columnName": "child_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "activityId",
+            "columnName": "activity_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "start",
+            "columnName": "start",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "end",
+            "columnName": "end",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "record_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Record_start",
+            "unique": false,
+            "columnNames": [
+              "start"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Record_start` ON `${TABLE_NAME}` (`start`)"
+          },
+          {
+            "name": "index_Record_end",
+            "unique": false,
+            "columnNames": [
+              "end"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Record_end` ON `${TABLE_NAME}` (`end`)"
+          },
+          {
+            "name": "index_Record_notes",
+            "unique": false,
+            "columnNames": [
+              "notes"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Record_notes` ON `${TABLE_NAME}` (`notes`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Child",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "child_id"
+            ],
+            "referencedColumns": [
+              "child_id"
+            ]
+          },
+          {
+            "table": "Activity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "activity_id"
+            ],
+            "referencedColumns": [
+              "activity_id"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '72b25bc483ab175c0866a6e536910aa4')"
+    ]
+  }
+}

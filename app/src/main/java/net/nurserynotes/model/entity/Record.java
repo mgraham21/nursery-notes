@@ -35,7 +35,7 @@ public class Record {
   private long activityId;
 
   @ColumnInfo(name = "start", index = true)
-  private Date start;
+  public Date start;
 
   @ColumnInfo(name = "end", index = true)
   private Date end;
