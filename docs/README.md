@@ -1,26 +1,50 @@
 # Nursery Notes
----
-## Description
+
+Description
 ---
 Family can record care for the baby. The app will have many options like diaper changes, feedings, sleep, or other important things. If the child needs medication, you can document doses. If the child has an allergy to a specific type of baby food or allergies to whatever, you can edit the baby's profile section to reflect them. When child goes to aunts or babysitter, the parent can send an invite to the app with the child's specific information and can record new data.
 
-## Intended users
+Intended users
 ---
 * Parents
 * Nanny/Babysitter 
 * Aunts, Uncles, Grandparents
 * Any other care givers
 
-## User Stories
+User Stories
 ---
 [User Stories](user-stories.md)
 
-## Design Documentation
+Design Documentation
 ---
 [Wireframe Diagram](wireframe.md)
 
 [Entity-Relationship Diagram](erd.md)
-
-## External Services
+ 
+External Services
 ---
 [External Services](external-services.md)
+
+ Entity Classes
+---
+[Activity Entity](https://github.com/mgraham21/nursery-notes/blob/master/app/src/main/java/net/nurserynotes/model/entity/Activity.java)
+
+[Child Entity](https://github.com/mgraham21/nursery-notes/blob/master/app/src/main/java/net/nurserynotes/model/entity/Child.java)
+
+[Record Entity](https://github.com/mgraham21/nursery-notes/blob/master/app/src/main/java/net/nurserynotes/model/entity/Record.java)
+
+Dao
+---
+[Activity Dao](https://github.com/mgraham21/nursery-notes/blob/master/app/src/main/java/net/nurserynotes/model/dao/ActivityDao.java)
+
+[Child Dao](https://github.com/mgraham21/nursery-notes/blob/master/app/src/main/java/net/nurserynotes/model/dao/ChildDao.java)
+
+[Record Dao](https://github.com/mgraham21/nursery-notes/blob/master/app/src/main/java/net/nurserynotes/model/dao/RecordDao.java)
+
+Database
+--- 
+[Database]()
+
+DDL
+---
+[DDL](ddl.md)
