@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "72b25bc483ab175c0866a6e536910aa4",
+    "identityHash": "dd51926468ab30d70c0ad76ab6e419b2",
     "entities": [
       {
         "tableName": "Activity",
@@ -135,6 +135,31 @@
         },
         "indices": [
           {
+            "name": "index_Record_child_id_activity_id",
+            "unique": true,
+            "columnNames": [
+              "child_id",
+              "activity_id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Record_child_id_activity_id` ON `${TABLE_NAME}` (`child_id`, `activity_id`)"
+          },
+          {
+            "name": "index_Record_child_id",
+            "unique": false,
+            "columnNames": [
+              "child_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Record_child_id` ON `${TABLE_NAME}` (`child_id`)"
+          },
+          {
+            "name": "index_Record_activity_id",
+            "unique": false,
+            "columnNames": [
+              "activity_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Record_activity_id` ON `${TABLE_NAME}` (`activity_id`)"
+          },
+          {
             "name": "index_Record_start",
             "unique": false,
             "columnNames": [
@@ -188,7 +213,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '72b25bc483ab175c0866a6e536910aa4')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dd51926468ab30d70c0ad76ab6e419b2')"
     ]
   }
 }

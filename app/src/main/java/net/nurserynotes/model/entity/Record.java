@@ -3,10 +3,14 @@ package net.nurserynotes.model.entity;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import java.util.Date;
 
 @Entity(
+    indices = {
+        @Index(value = {"child_id", "activity_id"}, unique = true)
+    },
     foreignKeys = {
         @ForeignKey(
             entity = Child.class,
@@ -28,10 +32,10 @@ public class Record {
   @PrimaryKey(autoGenerate = true)
   private long id;
 
-  @ColumnInfo(name = "child_id")
+  @ColumnInfo(name = "child_id", index = true)
   private long childId;
 
-  @ColumnInfo(name = "activity_id")
+  @ColumnInfo(name = "activity_id", index = true)
   private long activityId;
 
   @ColumnInfo(name = "start", index = true)

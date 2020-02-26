@@ -2,6 +2,9 @@ package net.nurserynotes;
 
 import android.app.Application;
 import com.facebook.stetho.Stetho;
+import net.nurserynotes.model.repository.ActivityRepository;
+import net.nurserynotes.model.repository.ChildRepository;
+import net.nurserynotes.service.NurseryNotesDatabase;
 
 public class NurseryNotesApplication extends Application {
 
@@ -9,5 +12,9 @@ public class NurseryNotesApplication extends Application {
   public void onCreate() {
     super.onCreate();
     Stetho.initializeWithDefaults(this);
+    NurseryNotesDatabase.setContext(this);
+    ActivityRepository.setContext(this);
+    ChildRepository.setContext(this);
   }
+
 }

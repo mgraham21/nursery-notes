@@ -19,7 +19,7 @@ public interface ChildDao {
   Single<Long> insert(Child child);
 
   @Insert(onConflict = OnConflictStrategy.IGNORE)
-  Single<List> insert(Collection<Child> children);
+  Single<List<Long>> insert(Collection<Child> children);
 
   @Update
   Single<Integer> delete(Child child);
