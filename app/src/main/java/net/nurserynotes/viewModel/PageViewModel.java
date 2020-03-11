@@ -1,4 +1,4 @@
-package net.nurserynotes.controller.ui.main;
+package net.nurserynotes.viewModel;
 
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;

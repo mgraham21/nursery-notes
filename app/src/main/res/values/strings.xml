@@ -1,6 +1,12 @@
 <resources>
   <string name="app_name">Nursery Notes</string>
   <string name="title_activity_main">Recent Activities</string>
-  <string name="tab_text_1">Tab 1</string>
-  <string name="tab_text_2">Tab 2</string>
+  <string name="tab_text_1">Child 1</string>
+  <string name="tab_text_2">Child 2</string>
+
+  <string name="date_label">Date:</string>
+  <string name="sign_out">Sign out</string>
+  <string name="login_failure">Unable to sign in with the provided credentials</string>
+
+  <string name="permissions_title">Permissions</string>
 </resources>
