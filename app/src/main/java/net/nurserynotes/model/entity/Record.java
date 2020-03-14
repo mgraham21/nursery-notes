@@ -1,5 +1,6 @@
 package net.nurserynotes.model.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -94,4 +95,10 @@ public class Record {
   public void setNotes(String notes) {
     this.notes = notes;
   }
+
+/*  @NonNull
+  @Override
+  public String toString() {
+    return String.format("[%1$s] %2$s", activityId, childId)
+  } */
 }

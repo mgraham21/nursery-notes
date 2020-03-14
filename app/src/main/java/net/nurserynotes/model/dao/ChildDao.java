@@ -22,12 +22,15 @@ public interface ChildDao {
   Single<List<Long>> insert(Collection<Child> children);
 
   @Update
-  Single<Integer> delete(Child child);
+  Single<Integer> update(Child child);
 
   @Delete
   Single<Integer> delete(Child... children);
 
   @Query("SELECT * FROM Child ORDER BY last_name, first_name")
   LiveData<List<Child>> select();
+
+  @Query("SELECT * FROM Child WHERE child_id = :id")
+  Single<Child> select(long id);
 
 }

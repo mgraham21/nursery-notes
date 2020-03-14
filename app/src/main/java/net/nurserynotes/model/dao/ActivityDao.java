@@ -29,4 +29,7 @@ public interface ActivityDao {
 
   @Query("SELECT * FROM Activity ORDER BY name")
   LiveData<List<Activity>> select();
+
+  @Query("SELECT * FROM Activity WHERE activity_id = :id")
+  Single<Activity> select(long id);
 }

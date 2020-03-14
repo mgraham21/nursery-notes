@@ -12,10 +12,13 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
     tools:ignore="GoogleAppIndexingWarning">
-    <activity android:name=".controller.SettingsActivity">
+    <activity android:name=".controller.SettingsActivity"
+      android:parentActivityName=".controller.MainActivity">
     </activity>
+
     <activity android:name=".controller.LoginActivity">
     </activity>
+
     <activity
       android:label="@string/title_activity_main"
       android:name=".controller.MainActivity">
@@ -25,6 +28,7 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+
   </application>
 
 </manifest>

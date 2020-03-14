@@ -30,6 +30,7 @@ public interface RecordDao {
   @Query("SELECT * FROM Record ORDER BY child_id")
   LiveData<List<Record>> select();
 
-
+  @Query("SELECT * FROM Record WHERE record_id = :id")
+  Single<Record> select(long id);
 
 }

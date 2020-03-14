@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity
 
   private static final int EXTERNAL_STORAGE_REQUEST_CODE = 1000;
 
+  private MainViewModel viewModel;
+  private Calendar calendar;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -48,7 +51,7 @@ public class MainActivity extends AppCompatActivity
     tabs.setupWithViewPager(viewPager);
     FloatingActionButton fab = findViewById(R.id.fab);
 
-    fab.setOnClickListener(new View.OnClickListener() {
+    fab.setOnClickListener(new View.OnClickListener()) {
       @Override
       public void onClick(View view) {
         Snackbar.make(view, "Add Activity", Snackbar.LENGTH_LONG)
