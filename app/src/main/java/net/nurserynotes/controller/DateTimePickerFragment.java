@@ -1,26 +1,24 @@
 package net.nurserynotes.controller;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
-import android.net.Uri;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.text.format.DateFormat;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import java.util.Calendar;
-import net.nurserynotes.R;
 
-/**
- * A simple {@link Fragment} subclass. Activities that contain this fragment must implement the
- * {@link DateTimePickerFragment.OnFragmentInteractionListener} interface to handle interaction
- * events. Use the {@link DateTimePickerFragment#newInstance} factory method to create an instance
- * of this fragment.
- */
-public class DateTimePickerFragment extends Fragment {
+
+public class DateTimePickerFragment extends DialogFragment
+    implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
   private static final String CALENDAR_KEY = "calendar";
   private static final String MODE_KEY = "mode";
@@ -40,54 +38,90 @@ public class DateTimePickerFragment extends Fragment {
 
   @NonNull
   @Override
-  public void onCreateDialog(@Nullable Bundle savedInstanceState) {
+  public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
     Dialog dialog;
-    readArguements();
+    readArguments();
     setupListener();
-  }
-
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_date_time_picker, container, false);
-  }
-
-  // TODO: Rename method, update argument and hook method into UI event
-  public void onButtonPressed(Uri uri) {
-    if (mListener != null) {
-      mListener.onFragmentInteraction(uri);
-    }
-  }
-
-  @Override
-  public void onAttach(Context context) {
-    super.onAttach(context);
-    if (context instanceof OnFragmentInteractionListener) {
-      mListener = (OnFragmentInteractionListener) context;
+    if (mode == Mode.DATE) {
+      dialog = new DatePickerDialog(getActivity(), this, calendar.get(Calendar.YEAR),
+          calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
     } else {
-      throw new RuntimeException(context.toString()
-          + " must implement OnFragmentInteractionListener");
+      dialog = new TimePickerDialog(getActivity(), this, calendar.get(Calendar.HOUR_OF_DAY),
+          calendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(getActivity()));
     }
+    return dialog;
   }
 
   @Override
-  public void onDetach() {
-    super.onDetach();
-    mListener = null;
+  public final void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+    Calendar updateValue = Calendar.getInstance();
+    updateValue.setTimeInMillis(calendar.getTimeInMillis());
+    updateValue.set(Calendar.YEAR, year);
+    updateValue.set(Calendar.MONTH, month);
+    updateValue.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+    listener.onChange(updateValue);
+  }
+
+  @Override
+  public final void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+    Calendar updateValue = Calendar.getInstance();
+    updateValue.setTimeInMillis(calendar.getTimeInMillis());
+    updateValue.set(Calendar.HOUR_OF_DAY, hourOfDay);
+    updateValue.set(Calendar.MINUTE, minute);
+    listener.onChange(updateValue);
+  }
+
+  private void readArguments() {
+    Bundle args = getArguments();
+    if (args == null
+        || !args.containsKey(MODE_KEY)
+        || (mode = (Mode) args.getSerializable(MODE_KEY)) == null)  {
+      mode = Mode.DATE;
+    }
+    if (args == null
+        ||!args.containsKey(CALENDAR_KEY)
+        || (calendar = (Calendar) args.getSerializable(CALENDAR_KEY)) == null) {
+      calendar = Calendar.getInstance();
+    }
+  }
+
+  private void setupListener() {
+    Fragment parentFragment = getParentFragment();
+    FragmentActivity hostActivity = getActivity();
+    if (parentFragment instanceof OnChangeListener) {
+      listener = (OnChangeListener) parentFragment;
+    } else if (hostActivity instanceof OnChangeListener) {
+      listener = (OnChangeListener) hostActivity;
+    } else {
+      listener = new OnChangeListener() {
+        @Override
+        public void onChange(Calendar calendar) {}
+      };
+    }
+  }
+
+
+  /**
+   * Enumerates the two possible modes of operation of {@link DateTimePickerFragment}.
+   */
+  public enum Mode {
+    DATE, TIME
   }
 
   /**
-   * This interface must be implemented by activities that contain this fragment to allow an
-   * interaction in this fragment to be communicated to the activity and potentially other fragments
-   * contained in that activity.
-   * <p>
-   * See the Android Training lesson <a href= "http://developer.android.com/training/basics/fragments/communicating.html"
-   * >Communicating with Other Fragments</a> for more information.
+   * Event handler for positive dismissal of the {@link DateTimePickerFragment}. In order to receive
+   * the updated date/time value, the parent fragment or host activity must implement this
+   * interface.
    */
-  public interface OnFragmentInteractionListener {
+  public interface OnChangeListener {
 
-    // TODO: Update argument type and name
-    void onFragmentInteraction(Uri uri);
+    /**
+     * Handles the user-selected date-time.
+     *
+     * @param calendar user-selected date-time.
+     */
+    void onChange(Calendar calendar);
+
   }
+
 }

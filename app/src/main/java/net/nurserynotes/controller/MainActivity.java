@@ -6,16 +6,19 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -37,7 +40,11 @@ public class MainActivity extends AppCompatActivity
   private static final int EXTERNAL_STORAGE_REQUEST_CODE = 1000;
 
   private MainViewModel viewModel;
+  private NavController navController;
+  private ProgressBar loading;
   private Calendar calendar;
+  private NavigationView navigator;
+  private NavOptions navOptions;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
