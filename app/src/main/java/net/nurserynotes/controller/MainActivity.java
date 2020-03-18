@@ -33,6 +33,7 @@ import java.util.LinkedList;
 import java.util.List;
 import net.nurserynotes.R;
 import net.nurserynotes.viewModel.MainViewModel;
+import net.nurserynotes.service.GoogleSignInRepository;
 
 public class MainActivity extends AppCompatActivity
     implements PermissionsFragment.OnAcknowledgeListener, DateTimePickerFragment.OnChangeListener {
@@ -57,6 +58,10 @@ public class MainActivity extends AppCompatActivity
     TabLayout tabs = findViewById(R.id.tabs);
     tabs.setupWithViewPager(viewPager);
     FloatingActionButton fab = findViewById(R.id.fab);
+    setupNavigation();
+    setupViewModel();
+    setupCalendarPicker();
+    checkPermissions();
 
     fab.setOnClickListener(new View.OnClickListener()) {
       @Override

@@ -49,6 +49,7 @@ public class ActivityRepository {
   }
 
   public Single<Activity> get(long id) {
+    ActivityDao = database.getActivityDao();
     return dao.select(id)
         .subscribeOn(Schedulers.io());
   }
