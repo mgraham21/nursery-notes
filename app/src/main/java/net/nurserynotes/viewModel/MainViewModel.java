@@ -4,6 +4,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.Lifecycle.Event;
+import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
@@ -12,14 +13,16 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import net.nurserynotes.model.Content;
 import net.nurserynotes.model.entity.Activity;
 import net.nurserynotes.model.entity.Child;
 import net.nurserynotes.model.entity.Record;
 import net.nurserynotes.model.repository.ActivityRepository;
 import net.nurserynotes.model.repository.ChildRepository;
 import net.nurserynotes.model.repository.RecordRepository;
+import net.nurserynotes.service.GoogleSignInRepository;
 
-public class MainViewModel extends AndroidViewModel {
+public class MainViewModel extends AndroidViewModel implements LifecycleObserver {
 
   private ActivityRepository activityRepository;
   private ChildRepository childRepository;
@@ -27,6 +30,7 @@ public class MainViewModel extends AndroidViewModel {
   private MutableLiveData<Activity> activity;
   private MutableLiveData<Record> record;
   private MutableLiveData<Child> child;
+  private MutableLiveData<List<Content>> contents;
   private MutableLiveData<Throwable> throwable;
   private final MutableLiveData<Set<String>> permissions;
   private final CompositeDisposable pending;
@@ -40,13 +44,9 @@ public class MainViewModel extends AndroidViewModel {
     record = new MutableLiveData<>();
     child = new MutableLiveData<>();
     permissions = new MutableLiveData<>(new HashSet<>());
+    contents = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
-  }
-
-  public LiveData<List<Activity>> getAll() {
-    throwable.setValue(null);
-    return activityRepository.getAll();
   }
 
   public LiveData<Activity> getActivity() {
@@ -55,6 +55,15 @@ public class MainViewModel extends AndroidViewModel {
 
   public LiveData<Throwable> getThrowable() {
     return throwable;
+  }
+
+  public LiveData<List<Activity>> getAll() {
+    throwable.setValue(null);
+    return activityRepository.getAll();
+  }
+
+  public LiveData<List<Content>> getContents() {
+    return contents;
   }
 
   public void grantPermission(String permission) {
@@ -71,7 +80,7 @@ public class MainViewModel extends AndroidViewModel {
     }
   }
 
-  public void setActivityDate (Date date) {
+ /* public void setActivityDate (Date date) {
     throwable.setValue(null);
     pending.add(
         ActivityRepository.get(date)
@@ -79,12 +88,12 @@ public class MainViewModel extends AndroidViewModel {
                 activity::postValue,
                 throwable::postValue
             )
-    )
-  }
+    );
+  } */
 
   public void setActivityId(long id) {
     throwable.setValue(null);
-    activityRepository.get(id)
+    activityRepository.getId(id)
         .subscribe(
             activity::postValue,
             throwable::postValue
@@ -99,7 +108,20 @@ public class MainViewModel extends AndroidViewModel {
             throwable::postValue
         );
   }
-
+ /* public void refreshContents() {
+    GoogleSignInRepository.getInstance().refresh()
+        .addOnSuccessListener((account) -> {
+          pending.add(
+              activityRepository.getAllContent(account.getIdToken())
+                  .subscribe(
+                      contents::postValue,
+                      throwable::postValue
+                  )
+          );
+        })
+        .addOnFailureListener(throwable::postValue);
+  }
+*/
 
   @SuppressWarnings("unused")
   @OnLifecycleEvent(Event.ON_STOP)

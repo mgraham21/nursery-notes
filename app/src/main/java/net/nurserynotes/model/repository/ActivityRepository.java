@@ -1,16 +1,17 @@
 package net.nurserynotes.model.repository;
 
 import android.app.Application;
-import android.provider.ContactsContract.CommonDataKinds.Note;
 import androidx.lifecycle.LiveData;
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.SingleSource;
 import io.reactivex.schedulers.Schedulers;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import net.nurserynotes.model.Content;
 import net.nurserynotes.model.dao.ActivityDao;
 import net.nurserynotes.model.entity.Activity;
+import net.nurserynotes.model.entity.Record;
 import net.nurserynotes.service.NurseryNotesDatabase;
 
 public class ActivityRepository {
@@ -30,6 +31,14 @@ public class ActivityRepository {
     dao = database.getActivityDao();
   }
 
+  public static void setContext(Application context) {
+    ActivityRepository.context = context;
+  }
+
+  public static ActivityRepository getInstance() {
+    return InstanceHolder.INSTANCE;
+  }
+
   public Completable save(Activity activity) {
     if (activity.getId() == 0) {
       return Completable.fromSingle(
@@ -44,25 +53,33 @@ public class ActivityRepository {
     }
   }
 
+  public Single<Activity> getId (long id) {
+    ActivityDao dao = database.getActivityDao();
+    return dao.select(id)
+        .subscribeOn(Schedulers.io())
+       /* .doAfterSuccess(this::insertActivity)*/;
+  }
+
+  /*public Single<Activity> getDate (Date date) {
+    ActivityDao dao = database.getActivityDao();
+    return  dao.select(date);
+  } */
+
   public LiveData<List<Activity>> getAll() {
     return dao.select();
   }
 
-  public Single<Activity> get(long id) {
-    ActivityDao = database.getActivityDao();
-    return dao.select(id)
-        .subscribeOn(Schedulers.io());
-  }
+ // private void insertActivity (Record record) {
+ // ActivityDao activityDao = database.getActivityDao();
+ // Activity activity = new Activity();
+ // activity.setId(activity.getId());
+ // activityDao.insert(activity)
+ //     .subscribeOn(Schedulers.io())
+ //     .subscribe(/*...*/);
+  // }
 
-  public static void setContext(Application context) {
-    ActivityRepository.context = context;
-  }
 
-  public static ActivityRepository getInstance() {
-    return InstanceHolder.INSTANCE;
-  }
-
-  private static class InstanceHolder {
+    private static class InstanceHolder {
     private static final ActivityRepository INSTANCE = new ActivityRepository();
   }
 

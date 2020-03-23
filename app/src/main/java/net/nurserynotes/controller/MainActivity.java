@@ -6,9 +6,13 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,23 +21,18 @@ import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import com.google.android.material.tabs.TabLayout.Mode;
+import net.nurserynotes.R;
+import net.nurserynotes.controller.DateTimePickerFragment.Mode;
+import net.nurserynotes.viewModel.MainViewModel;
+import net.nurserynotes.service.GoogleSignInRepository;
+import net.nurserynotes.controller.DateTimePickerFragment;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import net.nurserynotes.R;
-import net.nurserynotes.viewModel.MainViewModel;
-import net.nurserynotes.service.GoogleSignInRepository;
 
 public class MainActivity extends AppCompatActivity
     implements PermissionsFragment.OnAcknowledgeListener, DateTimePickerFragment.OnChangeListener {
@@ -44,32 +43,24 @@ public class MainActivity extends AppCompatActivity
   private NavController navController;
   private ProgressBar loading;
   private Calendar calendar;
-  private NavigationView navigator;
+  private BottomNavigationView navigator;
   private NavOptions navOptions;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this,
-        getSupportFragmentManager());
-    ViewPager viewPager = findViewById(R.id.view_pager);
-    viewPager.setAdapter(sectionsPagerAdapter);
-    TabLayout tabs = findViewById(R.id.tabs);
-    tabs.setupWithViewPager(viewPager);
-    FloatingActionButton fab = findViewById(R.id.fab);
     setupNavigation();
     setupViewModel();
     setupCalendarPicker();
     checkPermissions();
-
-    fab.setOnClickListener(new View.OnClickListener()) {
-      @Override
-      public void onClick(View view) {
-        Snackbar.make(view, "Add Activity", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show();
-      }
-    });
+    BottomNavigationView navView = findViewById(R.id.nav_view);
+    AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+        R.id.navigation_recent, R.id.navaigation_calendar, R.id.navigation_profile)
+        .build();
+    NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+    NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+    NavigationUI.setupWithNavController(navView, navController);
   }
 
   @Override
@@ -132,7 +123,7 @@ public class MainActivity extends AppCompatActivity
 
   public void loadActivity(Date date) {
     setProgressVisibility(View.VISIBLE);
-    viewModel.setActivityDate(date);
+   /* viewModel.setActivityDate(date);*/
   }
 
   public void setProgressVisibility(int visibility) {
@@ -149,7 +140,11 @@ public class MainActivity extends AppCompatActivity
 
   private void setupViewModel() {
     viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-    viewModel.getActivity().observe(this, (throwable) -> {
+    viewModel.getActivity().observe(this, (activity) -> {
+      calendar.setTime(activity.getCreated());
+      navigateTo(R.id.navigation_recent);
+    });
+    viewModel.getThrowable().observe(this, (throwable) -> {
       if (throwable != null) {
         showToast("Unable to retrieve Activity. ({throwable.getMessage()})");
       }
@@ -162,20 +157,21 @@ public class MainActivity extends AppCompatActivity
         .setPopUpTo(R.id.navigation_map, true)
         .build();
     AppBarConfiguration appBarConfiguration =
-        new AppBarConfiguration.Builder(R.id.navigation_image, R.id.navigation_history)
+        new AppBarConfiguration.Builder(
+            R.id.navigation_recent, R.id.navaigation_calendar, R.id.navigation_profile)
             .build();
     navController = Navigation.findNavController(this, R.id.nav_host_fragment);
     NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-    navigator = findViewById(R.id.navigator);
+    navigator = findViewById(R.id.nav_view);
     navigator.setOnNavigationItemSelectedListener((item) -> {
       navigateTo(item.getItemId());
       return true;
     });
   }
-
+// TODO Fix button from calendar to add activity function
   private void setupCalendarPicker() {
     calendar = Calendar.getInstance();
-    FloatingActionButton calendarFab = findViewById(R.id.calendar_fab);
+    FloatingActionButton calendarFab = findViewById(R.id.add_fab);
     calendarFab.setOnClickListener((v) -> {
       DateTimePickerFragment fragment = DateTimePickerFragment.createInstance(Mode.DATE, calendar);
       fragment.show(getSupportFragmentManager(), fragment.getClass().getName());

@@ -3,12 +3,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   package="net.nurserynotes">
 
-  <uses-permission
-    android:maxSdkVersion="28"
-    android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
-  <uses-permission android:name="android.permission.INTERNET"/>
-
+  <!-- To access Google+ APIs: -->
   <application
     android:allowBackup="true"
     android:icon="@mipmap/ic_launcher"
@@ -18,13 +13,12 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
     tools:ignore="GoogleAppIndexingWarning">
-    <activity android:name=".controller.SettingsActivity"
+    <activity
+      android:name=".controller.SettingsActivity"
       android:parentActivityName=".controller.MainActivity">
     </activity>
-
     <activity android:name=".controller.LoginActivity">
     </activity>
-
     <activity
       android:label="@string/title_activity_main"
       android:name=".controller.MainActivity">
@@ -34,7 +28,11 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-
   </application>
+  <uses-permission
+    android:maxSdkVersion="28"
+    android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+  <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>

@@ -5,9 +5,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import java.util.Date;
+import net.nurserynotes.model.Content;
 
 @Entity
-public class Activity {
+public class Activity implements Content {
 
   @ColumnInfo(name = "activity_id")
   @PrimaryKey(autoGenerate = true)

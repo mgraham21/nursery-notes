@@ -46,7 +46,7 @@ public class PermissionsFragment extends DialogFragment {
         ? args.getStringArray(PERMISSIONS_TO_REQUEST_KEY)
         : new String[0];
     return new Builder(getContext())
-        .setIcon(R.drawable.ic_warning)
+        .setIcon(R.drawable.ic_add)
         .setTitle(R.string.permissions_title)
         .setMessage(buildMessage(permissionsToExplain))
         .setNeutralButton(R.string.info_ok,
