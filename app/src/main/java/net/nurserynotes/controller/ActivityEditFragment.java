@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +19,8 @@ import androidx.lifecycle.ViewModelProvider;
 import java.util.List;
 import java.util.UUID;
 import net.nurserynotes.R;
-import net.nurserynotes.model.Content;
+import net.nurserynotes.model.ActivityContent;
 import net.nurserynotes.model.entity.Activity;
-import net.nurserynotes.model.entity.Record;
 import net.nurserynotes.viewModel.MainViewModel;
 
 public class ActivityEditFragment extends DialogFragment {
@@ -34,7 +32,7 @@ public class ActivityEditFragment extends DialogFragment {
   private MainViewModel viewModel;
   private EditText activityText;
   private AutoCompleteTextView activityName;
-  private List<Content> contents;
+  private List<ActivityContent> activityContents;
   private Activity activity;
 
   public static ActivityEditFragment newInstance(UUID id) {
@@ -79,10 +77,10 @@ public class ActivityEditFragment extends DialogFragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    viewModel.getContents().observe(getViewLifecycleOwner(), (contents) -> {
-      this.contents = contents;
-      ArrayAdapter<Content> adapter =
-          new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, contents);
+    viewModel.getActivityContents().observe(getViewLifecycleOwner(), (activityContents) -> {
+      this.activityContents = activityContents;
+      ArrayAdapter<ActivityContent> adapter =
+          new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, activityContents);
       activityName.setAdapter(adapter);
     });
     if (id != Long.parseLong(null)) {
@@ -100,7 +98,7 @@ public class ActivityEditFragment extends DialogFragment {
 
   private void save() {
     activity.setText(activityText.getText().toString().trim());
-    Content content = null;
+    ActivityContent activityContent = null;
     String name = activityName.getText().toString().trim();
     viewModel.save(activity);
   }

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.UUID;
 import net.nurserynotes.R;
-import net.nurserynotes.view.ContentRecyclerAdapter;
+import net.nurserynotes.view.ActivityRecyclerAdapter;
 import net.nurserynotes.viewModel.MainViewModel;
 
 public class RecentActivitiesFragment extends Fragment {
@@ -38,9 +38,9 @@ public class RecentActivitiesFragment extends Fragment {
   private void setupViewModel() {
     @SuppressWarnings("ConstantConditions")
     MainViewModel viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    viewModel.getContents().observe(getViewLifecycleOwner(), (contents) -> {
-      ContentRecyclerAdapter adapter = new ContentRecyclerAdapter(getContext(),
-          contents, (position, content) -> editActivity(content.getId()));
+    viewModel.getActivityContents().observe(getViewLifecycleOwner(), (activityContents) -> {
+      ActivityRecyclerAdapter adapter = new ActivityRecyclerAdapter(getContext(),
+          activityContents, (position, activityContent) -> editActivity(activityContent.getId()));
       activitiesList.setAdapter(adapter);
     });
   }

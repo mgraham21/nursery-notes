@@ -9,18 +9,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
 import io.reactivex.disposables.CompositeDisposable;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import net.nurserynotes.model.Content;
+import net.nurserynotes.model.ActivityContent;
 import net.nurserynotes.model.entity.Activity;
 import net.nurserynotes.model.entity.Child;
 import net.nurserynotes.model.entity.Record;
 import net.nurserynotes.model.repository.ActivityRepository;
 import net.nurserynotes.model.repository.ChildRepository;
 import net.nurserynotes.model.repository.RecordRepository;
-import net.nurserynotes.service.GoogleSignInRepository;
 
 public class MainViewModel extends AndroidViewModel implements LifecycleObserver {
 
@@ -30,7 +28,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   private MutableLiveData<Activity> activity;
   private MutableLiveData<Record> record;
   private MutableLiveData<Child> child;
-  private MutableLiveData<List<Content>> contents;
+  private MutableLiveData<List<ActivityContent>> contents;
   private MutableLiveData<Throwable> throwable;
   private final MutableLiveData<Set<String>> permissions;
   private final CompositeDisposable pending;
@@ -62,7 +60,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return activityRepository.getAll();
   }
 
-  public LiveData<List<Content>> getContents() {
+  public LiveData<List<ActivityContent>> getActivityContents() {
     return contents;
   }
 

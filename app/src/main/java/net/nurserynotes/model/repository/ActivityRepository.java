@@ -4,14 +4,10 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
 import io.reactivex.schedulers.Schedulers;
-import java.util.Date;
 import java.util.List;
-import net.nurserynotes.model.Content;
 import net.nurserynotes.model.dao.ActivityDao;
 import net.nurserynotes.model.entity.Activity;
-import net.nurserynotes.model.entity.Record;
 import net.nurserynotes.service.NurseryNotesDatabase;
 
 public class ActivityRepository {

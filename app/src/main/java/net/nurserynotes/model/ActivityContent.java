@@ -1,5 +1,5 @@
 package net.nurserynotes.model;
 
-public interface Content {
+public interface ActivityContent {
 
 }
