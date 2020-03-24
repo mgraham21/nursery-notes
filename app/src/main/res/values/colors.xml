@@ -6,4 +6,6 @@
   <color name="colorSecondary">#00D087</color>
   <color name="colorSecondaryLight">#60FFB7</color>
   <color name="colorSecondaryAccent">#009E5A</color>
+
+  <color name="listBackground">#FFE0E0E0</color>
 </resources>

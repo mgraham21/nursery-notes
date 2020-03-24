@@ -10,11 +10,13 @@
   <dimen name="appbar_padding">16dp</dimen>
   <dimen name="appbar_padding_top">8dp</dimen>
 
-  <dimen name="list_item_spacing">2dp</dimen>
+  <dimen name="list_item_padding">2dp</dimen>
   <dimen name="list_item_radius">4dp</dimen>
   <dimen name="list_item_title_size">16sp</dimen>
   <dimen name="list_item_text_size">12sp</dimen>
-  <dimen name="list_content_spacing">8dp</dimen>
+  <dimen name="list_item_corner_radius">2dp</dimen>
+  <dimen name="list_item_child_indent">4dp</dimen>
+  <dimen name="list_item_overlap">-4dp</dimen>
 
   <dimen name="info_label_gap">8dp</dimen>
   <dimen name="info_item_spacing">8dp</dimen>

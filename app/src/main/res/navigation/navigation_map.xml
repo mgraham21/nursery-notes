@@ -8,8 +8,8 @@
   <fragment
     android:id="@+id/navigation_recent"
     android:label="Recent"
-    android:name="net.nurserynotes.controller.ContentFragment"
-    tools:layout="@layout/fragment_content"/>
+    android:name="net.nurserynotes.controller.RecentActivitiesFragment"
+    tools:layout="@layout/fragment_recent_activities"/>
 
   <fragment
     android:id="@+id/navaigation_calendar"

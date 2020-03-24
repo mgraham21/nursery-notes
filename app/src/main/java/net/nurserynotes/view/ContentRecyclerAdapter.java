@@ -1,7 +1,6 @@
 package net.nurserynotes.view;
 
 import android.content.Context;
-import android.os.Build.VERSION_CODES;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +77,7 @@ public class ContentRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public ActivityHolder(@NonNull View itemView) {
       super(itemView);
-      activityDetails = itemView.findViewById(R.id.activity_name);
+      activityDetails = itemView.findViewById(R.id.activity_details);
     }
 
     public void bind(int position, Content activity) {
