@@ -5,10 +5,11 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import java.util.Date;
-import net.nurserynotes.model.ActivityContent;
+import java.util.UUID;
+import net.nurserynotes.model.Content;
 
 @Entity
-public class Activity implements ActivityContent {
+public class Activity implements Content {
 
   @ColumnInfo(name = "activity_id")
   @PrimaryKey(autoGenerate = true)
@@ -61,7 +62,7 @@ public class Activity implements ActivityContent {
   @NonNull
   @Override
   public String toString() {
-    return String.format("[%1$s] %2$s", created, name);
+    return String.format("%1$s", name);
   }
 
 }

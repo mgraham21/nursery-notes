@@ -22,16 +22,19 @@ public class DateTimePickerFragment extends DialogFragment
 
   private static final String CALENDAR_KEY = "calendar";
   private static final String MODE_KEY = "mode";
+  private static final String TAG_KEY = "tag";
 
   private Mode mode;
   private Calendar calendar;
+  private int tag;
   private OnChangeListener listener;
 
-  public static DateTimePickerFragment createInstance(Mode mode, Calendar calendar) {
+  public static DateTimePickerFragment createInstance(Mode mode, Calendar calendar, int tag) {
     DateTimePickerFragment fragment = new DateTimePickerFragment();
     Bundle args = new Bundle();
     args.putSerializable(MODE_KEY, mode);
     args.putSerializable(CALENDAR_KEY, calendar);
+    args.putInt(TAG_KEY, tag);
     fragment.setArguments(args);
     return fragment;
   }
@@ -59,7 +62,7 @@ public class DateTimePickerFragment extends DialogFragment
     updateValue.set(Calendar.YEAR, year);
     updateValue.set(Calendar.MONTH, month);
     updateValue.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-    listener.onChange(updateValue);
+    listener.onChange(updateValue, tag);
   }
 
   @Override
@@ -68,7 +71,7 @@ public class DateTimePickerFragment extends DialogFragment
     updateValue.setTimeInMillis(calendar.getTimeInMillis());
     updateValue.set(Calendar.HOUR_OF_DAY, hourOfDay);
     updateValue.set(Calendar.MINUTE, minute);
-    listener.onChange(updateValue);
+    listener.onChange(updateValue, tag);
   }
 
   private void readArguments() {
@@ -83,6 +86,9 @@ public class DateTimePickerFragment extends DialogFragment
         || (calendar = (Calendar) args.getSerializable(CALENDAR_KEY)) == null) {
       calendar = Calendar.getInstance();
     }
+    if (args != null) {
+      tag = args.getInt(TAG_KEY, 0);
+    }
   }
 
   private void setupListener() {
@@ -95,32 +101,20 @@ public class DateTimePickerFragment extends DialogFragment
     } else {
       listener = new OnChangeListener() {
         @Override
-        public void onChange(Calendar calendar) {}
+        public void onChange(Calendar calendar, int tag) {}
       };
     }
   }
 
 
-  /**
-   * Enumerates the two possible modes of operation of {@link DateTimePickerFragment}.
-   */
   public enum Mode {
     DATE, TIME
   }
 
-  /**
-   * Event handler for positive dismissal of the {@link DateTimePickerFragment}. In order to receive
-   * the updated date/time value, the parent fragment or host activity must implement this
-   * interface.
-   */
+
   public interface OnChangeListener {
 
-    /**
-     * Handles the user-selected date-time.
-     *
-     * @param calendar user-selected date-time.
-     */
-    void onChange(Calendar calendar);
+    void onChange(Calendar calendar, int tag);
 
   }
 

@@ -1,17 +1,19 @@
 package net.nurserynotes.model.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import java.util.Date;
+import net.nurserynotes.model.Content;
 
 @Entity(
     indices = {
         @Index(value = {"last_name", "first_name"}, unique = true)
     }
 )
-public class Child {
+public class Child implements Content {
 
   @ColumnInfo(name = "child_id")
   @PrimaryKey(autoGenerate = true)
@@ -25,6 +27,12 @@ public class Child {
 
   @ColumnInfo(name = "birth_date", index = true)
   private Date birthDate;
+
+  @NonNull
+  @Override
+  public String toString() {
+    return firstName + " " + lastName;
+  }
 
   public long getId() {
     return id;

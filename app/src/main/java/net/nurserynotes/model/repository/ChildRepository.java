@@ -1,13 +1,12 @@
 package net.nurserynotes.model.repository;
 
 import android.app.Application;
+import android.content.Context;
 import androidx.lifecycle.LiveData;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import net.nurserynotes.model.dao.ChildDao;
 import net.nurserynotes.model.entity.Child;
 import net.nurserynotes.service.NurseryNotesDatabase;
@@ -18,13 +17,11 @@ public class ChildRepository {
 
   private final NurseryNotesDatabase database;
 
-  private static Application context;
-  private static ChildDao dao;
+  private final Context context;
+  private final ChildDao dao;
 
-  public ChildRepository() {
-    if (context == null) {
-      throw new IllegalStateException();
-    }
+  public ChildRepository(Context context) {
+    this.context = context;
     database = NurseryNotesDatabase.getInstance();
     dao = database.getChildDao();
   }
@@ -43,26 +40,19 @@ public class ChildRepository {
     }
   }
 
+  public Completable remove(Child child) {
+    return Completable.fromSingle(
+        dao.delete(child)
+          .subscribeOn(Schedulers.io())
+    );
+  }
+
   public LiveData<List<Child>> getAll() {
     return dao.select();
   }
 
-  public Single<Child> get(long id) {
-    return dao.select(id)
-        .subscribeOn(Schedulers.io());
+  public LiveData<Child> get(long id) {
+    return dao.select(id);
   }
-
-  public static void setContext(Application context) {
-    ChildRepository.context = context;
-  }
-
-  public static ChildRepository getInstance() {
-    return InstanceHolder.INSTANCE;
-  }
-
-  private static class InstanceHolder {
-    private static final ChildRepository INSTANCE = new ChildRepository();
-  }
-
 
 }

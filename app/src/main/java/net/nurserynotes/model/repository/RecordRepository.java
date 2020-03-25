@@ -1,30 +1,26 @@
 package net.nurserynotes.model.repository;
 
 import android.app.Application;
+import android.content.Context;
 import androidx.lifecycle.LiveData;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
-import java.util.PrimitiveIterator;
 import net.nurserynotes.model.dao.RecordDao;
-import net.nurserynotes.model.entity.Activity;
 import net.nurserynotes.model.entity.Record;
+import net.nurserynotes.model.pojo.RecordWithDetails;
 import net.nurserynotes.service.NurseryNotesDatabase;
 
 public class RecordRepository {
 
-  private static final int NETWORK_THREAD_COUNT = 10;
-
   private final NurseryNotesDatabase database;
 
-  private static Application context;
+  private final Context context;
   private final RecordDao dao;
 
-  public RecordRepository() {
-    if (context == null) {
-      throw new IllegalStateException();
-    }
+  public RecordRepository(Context context) {
+    this.context = context;
     database = NurseryNotesDatabase.getInstance();
     dao = database.getRecordDao();
   }
@@ -43,25 +39,43 @@ public class RecordRepository {
     }
   }
 
+  public Completable remove(Record record) {
+    return Completable.fromSingle(
+        dao.delete(record)
+          .subscribeOn(Schedulers.io())
+    );
+  }
+
   public LiveData<List<Record>> getAll() {
     return dao.select();
   }
 
-  public Single<Record> get(long id) {
-    return dao.select(id)
-        .subscribeOn(Schedulers.io());
+  public LiveData<List<Record>> getAllForChild(long childId) {
+    return dao.selectForChild(childId);
   }
 
-  public static void setContext(Application context) {
-    RecordRepository.context = context;
+  public LiveData<List<Record>> getAllForActivity(long activityId) {
+    return dao.selectForActivity(activityId);
   }
 
-  public static RecordRepository getInstance() {
-    return InstanceHolder.INSTANCE;
+  public LiveData<Record> get(long id) {
+    return dao.select(id);
   }
 
-  private static class InstanceHolder {
-    private static final RecordRepository INSTANCE = new RecordRepository();
+  public LiveData<List<RecordWithDetails>> getAllWithDetails() {
+    return dao.selectWithDetails();
+  }
+
+  public LiveData<List<RecordWithDetails>> getAllForChildWithDetails(long childId) {
+    return dao.selectForChildWithDetails(childId);
+  }
+
+  public LiveData<List<RecordWithDetails>> getAllForActivityWithDetails(long activityId) {
+    return dao.selectForActivityWithDetails(activityId);
+  }
+
+  public LiveData<RecordWithDetails> getWithDetails(long id) {
+    return dao.selectWithDetails(id);
   }
 
 }

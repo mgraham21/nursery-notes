@@ -31,6 +31,6 @@ public interface ChildDao {
   LiveData<List<Child>> select();
 
   @Query("SELECT * FROM Child WHERE child_id = :id")
-  Single<Child> select(long id);
+  LiveData<Child> select(long id);
 
 }

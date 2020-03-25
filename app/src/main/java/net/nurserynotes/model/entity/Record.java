@@ -7,6 +7,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import java.util.Date;
+import net.nurserynotes.model.Content;
 
 @Entity(
     indices = {
@@ -27,7 +28,7 @@ import java.util.Date;
         )
     }
 )
-public class Record {
+public class Record implements Content {
 
   @ColumnInfo(name = "record_id")
   @PrimaryKey(autoGenerate = true)

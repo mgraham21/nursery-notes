@@ -22,7 +22,7 @@ public interface ActivityDao {
   Single<List<Long>> insert(Collection<Activity> activities);
 
   @Update
-  Single<Integer> update(Activity activity);
+  Single<Integer> update(Activity... activities);
 
   @Delete
   Single<Integer> delete(Activity... activities);
@@ -31,5 +31,5 @@ public interface ActivityDao {
   LiveData<List<Activity>> select();
 
   @Query("SELECT * FROM Activity WHERE activity_id = :id")
-  Single<Activity> select(long id);
+  LiveData<Activity> select(long id);
 }

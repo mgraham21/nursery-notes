@@ -14,9 +14,7 @@ public class NurseryNotesApplication extends Application {
     super.onCreate();
     Stetho.initializeWithDefaults(this);
     NurseryNotesDatabase.setContext(this);
-    ActivityRepository.setContext(this);
-    ChildRepository.setContext(this);
-    NurseryNotesDatabase.getInstance().getActivityDao().delete()
+      NurseryNotesDatabase.getInstance().getActivityDao().delete()
         .subscribeOn(Schedulers.io())
         .subscribe();
   }

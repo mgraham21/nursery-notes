@@ -11,9 +11,8 @@ import android.view.ViewGroup;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import java.util.UUID;
 import net.nurserynotes.R;
-import net.nurserynotes.view.ActivityRecyclerAdapter;
+import net.nurserynotes.view.RecordRecyclerAdapter;
 import net.nurserynotes.viewModel.MainViewModel;
 
 public class RecentActivitiesFragment extends Fragment {
@@ -25,7 +24,7 @@ public class RecentActivitiesFragment extends Fragment {
     View root = inflater.inflate(R.layout.fragment_recent_activities, container, false);
     activitiesList = root.findViewById(R.id.activities_list);
     FloatingActionButton addActivity = root.findViewById(R.id.add_fab);
-    addActivity.setOnClickListener((v) -> editActivity(null));
+    addActivity.setOnClickListener((v) -> editRecord(0));
     return root;
   }
 
@@ -38,16 +37,16 @@ public class RecentActivitiesFragment extends Fragment {
   private void setupViewModel() {
     @SuppressWarnings("ConstantConditions")
     MainViewModel viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    viewModel.getActivityContents().observe(getViewLifecycleOwner(), (activityContents) -> {
-      ActivityRecyclerAdapter adapter = new ActivityRecyclerAdapter(getContext(),
-          activityContents, (position, activityContent) -> editActivity(activityContent.getId()));
+    viewModel.getRecords().observe(getViewLifecycleOwner(), (records) -> {
+      RecordRecyclerAdapter adapter = new RecordRecyclerAdapter(getContext(),
+          records, (position, activity) -> editRecord(activity.getId()));
       activitiesList.setAdapter(adapter);
     });
   }
 
-  private void editActivity(UUID activityId) {
-    Log.d(getClass().getName(), String.valueOf(activityId));
-    ActivityEditFragment fragment = ActivityEditFragment.newInstance(activityId);
+  private void editRecord(long recordId) {
+    Log.d(getClass().getName(), String.valueOf(recordId));
+    RecordEditFragment fragment = RecordEditFragment.newInstance(recordId);
     fragment.show(getParentFragmentManager(), fragment.getClass().getName());
   }
 

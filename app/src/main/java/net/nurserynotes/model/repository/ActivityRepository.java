@@ -1,6 +1,7 @@
 package net.nurserynotes.model.repository;
 
 import android.app.Application;
+import android.content.Context;
 import androidx.lifecycle.LiveData;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -12,27 +13,15 @@ import net.nurserynotes.service.NurseryNotesDatabase;
 
 public class ActivityRepository {
 
-  private static final int NETWORK_THREAD_COUNT = 10;
-
   private final NurseryNotesDatabase database;
 
-  private static Application context;
+  private final Context context;
   private final ActivityDao dao;
 
-  public ActivityRepository() {
-    if (context == null) {
-      throw new IllegalStateException();
-    }
+  public ActivityRepository(Context context) {
+    this.context = context;
     database = NurseryNotesDatabase.getInstance();
     dao = database.getActivityDao();
-  }
-
-  public static void setContext(Application context) {
-    ActivityRepository.context = context;
-  }
-
-  public static ActivityRepository getInstance() {
-    return InstanceHolder.INSTANCE;
   }
 
   public Completable save(Activity activity) {
@@ -49,11 +38,15 @@ public class ActivityRepository {
     }
   }
 
-  public Single<Activity> getId (long id) {
-    ActivityDao dao = database.getActivityDao();
-    return dao.select(id)
-        .subscribeOn(Schedulers.io())
-       /* .doAfterSuccess(this::insertActivity)*/;
+  public Completable remove(Activity activity) {
+    return Completable.fromSingle(
+        dao.delete(activity)
+          .subscribeOn(Schedulers.io())
+    );
+  }
+
+  public LiveData<Activity> get(long id) {
+    return dao.select(id);
   }
 
   /*public Single<Activity> getDate (Date date) {
@@ -63,20 +56,6 @@ public class ActivityRepository {
 
   public LiveData<List<Activity>> getAll() {
     return dao.select();
-  }
-
- // private void insertActivity (Record record) {
- // ActivityDao activityDao = database.getActivityDao();
- // Activity activity = new Activity();
- // activity.setId(activity.getId());
- // activityDao.insert(activity)
- //     .subscribeOn(Schedulers.io())
- //     .subscribe(/*...*/);
-  // }
-
-
-    private static class InstanceHolder {
-    private static final ActivityRepository INSTANCE = new ActivityRepository();
   }
 
 }
