@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -51,14 +53,15 @@ public class RecordEditFragment extends DialogFragment implements DateTimePicker
   private DateFormat timeFormat;
 
 
-  public static RecordEditFragment newInstance(long id) {
+  public static void newInstance(FragmentManager manager, long id) {
     RecordEditFragment fragment = new RecordEditFragment();
     Bundle args = new Bundle();
     args.putSerializable(ID_KEY, id);
     fragment.setArguments(args);
-    return fragment;
+    fragment.show(manager, RecordEditFragment.class.getName());
   }
 
+  @SuppressWarnings("ConstantConditions")
   @SuppressLint("InflateParams")
   @NonNull
   @Override
@@ -89,7 +92,6 @@ public class RecordEditFragment extends DialogFragment implements DateTimePicker
       DateTimePickerFragment fragment = DateTimePickerFragment.createInstance(Mode.TIME, end, END_TAG);
       fragment.show(getChildFragmentManager(), fragment.getClass().getName());
     });
-    //noinspection ConstantConditions
     return new Builder(getContext())
         .setIcon(R.drawable.ic_create)
         .setTitle(R.string.activity_details)
@@ -105,10 +107,11 @@ public class RecordEditFragment extends DialogFragment implements DateTimePicker
     return root;
   }
 
+  @SuppressWarnings("ConstantConditions")
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     viewModel.getActivities().observe(getViewLifecycleOwner(), (activities) -> {
       this.activities = activities;
       ArrayAdapter<Activity> adapter =

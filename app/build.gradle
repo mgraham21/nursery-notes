@@ -14,6 +14,7 @@ android {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
+        buildConfigField "String", "CLIENT_ID", "\"848200984263-h8kfvftsg0ren6lh8crucd8lu9oavsru.apps.googleusercontent.com\""
     }
     buildTypes {
         release {

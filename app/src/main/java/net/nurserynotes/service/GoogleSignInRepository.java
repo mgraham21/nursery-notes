@@ -27,7 +27,6 @@ public class GoogleSignInRepository {
         .requestEmail()
         .requestId()
         .requestProfile()
-        // .requestIdToken(clientId)
         .build();
     client = GoogleSignIn.getClient(context, options);
   }

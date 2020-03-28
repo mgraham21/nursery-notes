@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,20 +15,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 import net.nurserynotes.R;
-import net.nurserynotes.controller.DateTimePickerFragment.Mode;
 import net.nurserynotes.viewModel.MainViewModel;
 import net.nurserynotes.service.GoogleSignInRepository;
-import net.nurserynotes.controller.DateTimePickerFragment;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,7 +43,7 @@ public class MainActivity extends AppCompatActivity
     checkPermissions();
     BottomNavigationView navView = findViewById(R.id.nav_view);
     AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-        R.id.navigation_recent, R.id.navaigation_calendar, R.id.navigation_profile)
+        R.id.navigation_recent, R.id.navigation_list_of_children, R.id.navigation_list_of_activities)
         .build();
     NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
     NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -123,7 +114,7 @@ public class MainActivity extends AppCompatActivity
     viewModel = new ViewModelProvider(this).get(MainViewModel.class);
     viewModel.getThrowable().observe(this, (throwable) -> {
       if (throwable != null) {
-        showToast("Unable to retrieve Activity. ({throwable.getMessage()})");
+        showToast("Unable to retrieve Activity. ({throwable.getMessage()}) ");
       }
     });
     getLifecycle().addObserver(viewModel);
@@ -132,7 +123,7 @@ public class MainActivity extends AppCompatActivity
   private void setupNavigation() {
    AppBarConfiguration appBarConfiguration =
         new AppBarConfiguration.Builder(
-            R.id.navigation_recent, R.id.navaigation_calendar, R.id.navigation_profile)
+            R.id.navigation_recent, R.id.navigation_list_of_children, R.id.navigation_list_of_activities)
             .build();
     navController = Navigation.findNavController(this, R.id.nav_host_fragment);
     NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);

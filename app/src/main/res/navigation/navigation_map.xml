@@ -12,15 +12,15 @@
     tools:layout="@layout/fragment_recent_activities"/>
 
   <fragment
-    android:id="@+id/navaigation_calendar"
-    android:label=""
-    android:name=""
-    tools:layout=""/>
+    android:id="@+id/navigation_list_of_children"
+    android:label="List of Children"
+    android:name="net.nurserynotes.controller.ListOfChildrenFragment"
+    tools:layout="@layout/fragment_list_of_children"/>
 
   <fragment
-    android:id="@+id/navigation_profile"
-    android:label=""
-    android:name=""
-    tools:layout=""/>
+    android:id="@+id/navigation_list_of_activities"
+    android:label="List of Activities"
+    android:name="net.nurserynotes.controller.ListOfActivitiesFragment"
+    tools:layout="@layout/fragment_list_of_activities"/>
 
 </navigation>

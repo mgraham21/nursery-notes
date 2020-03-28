@@ -3,12 +3,11 @@
   xmlns:tools="http://schemas.android.com/tools"
   package="net.nurserynotes">
 
-  <!-- To access Google+ APIs: -->
   <application
+    android:name=".NurseryNotesApplication"
     android:allowBackup="false"
     android:icon="@mipmap/ic_launcher"
     android:label="@string/app_name"
-    android:name=".NurseryNotesApplication"
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/AppTheme"

@@ -3,17 +3,17 @@
 
   <item
     android:id="@+id/navigation_recent"
-    android:icon="@drawable/ic_recent"
-    android:title="Recent Activities"/>
-
-  <item
-    android:id="@+id/navaigation_calendar"
     android:icon="@drawable/ic_calendar"
-    android:title="History"/>
+    android:title="@string/recent_activities"/>
 
   <item
-    android:id="@+id/navigation_profile"
-    android:icon="@drawable/ic_person"
-    android:title="Profile"/>
+    android:id="@+id/navigation_list_of_children"
+    android:icon="@drawable/ic_people"
+    android:title="@string/list_of_children"/>
+
+  <item
+    android:id="@+id/navigation_list_of_activities"
+    android:icon="@drawable/ic_list"
+    android:title="@string/list_of_activities"/>
 
 </menu>
