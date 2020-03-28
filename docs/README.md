@@ -51,10 +51,6 @@ Dao
 
 [Record Dao](https://github.com/mgraham21/nursery-notes/blob/master/app/src/main/java/net/nurserynotes/model/dao/RecordDao.java)
 
-Database
---- 
-[Database]()
-
 DDL
 ---
 [DDL](ddl.md)
