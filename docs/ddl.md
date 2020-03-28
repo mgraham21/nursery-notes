@@ -4,8 +4,12 @@
 CREATE TABLE IF NOT EXISTS `Activity`
 (
     `activity_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    `name`        TEXT COLLATE NOCASE
+    `created`     INTEGER                           NOT NULL,
+    `name`        TEXT COLLATE NOCASE,
+    `text`        TEXT                              NOT NULL
 );
+
+CREATE INDEX IF NOT EXISTS `index_Activity_created` ON `Activity` (`created`);
 
 CREATE TABLE IF NOT EXISTS `Child`
 (
@@ -30,6 +34,12 @@ CREATE TABLE IF NOT EXISTS `Record`
     FOREIGN KEY (`child_id`) REFERENCES `Child` (`child_id`) ON UPDATE NO ACTION ON DELETE CASCADE,
     FOREIGN KEY (`activity_id`) REFERENCES `Activity` (`activity_id`) ON UPDATE NO ACTION ON DELETE CASCADE
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS `index_Record_child_id_activity_id` ON `Record` (`child_id`, `activity_id`);
+
+CREATE INDEX IF NOT EXISTS `index_Record_child_id` ON `Record` (`child_id`);
+
+CREATE INDEX IF NOT EXISTS `index_Record_activity_id` ON `Record` (`activity_id`);
 
 CREATE INDEX IF NOT EXISTS `index_Record_start` ON `Record` (`start`);
 
